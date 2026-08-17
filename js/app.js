@@ -1,4 +1,4 @@
-import { api, API_MODE } from './api.js?v=20260817-render-wakeup1';
+import { api, API_MODE } from './api.js?v=20260818-render-api1';
 import { PARTY_CAPACITY } from './constants.js';
 import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js';

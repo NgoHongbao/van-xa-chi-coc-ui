@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../config.js';
+import { API_BASE_URL } from '../config.js?v=20260818-render-api1';
 
 const DEFAULT_RETRY_DELAY = 2500;
 const MAX_RETRIES = 3;

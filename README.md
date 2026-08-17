@@ -76,7 +76,7 @@ Mặc định trong `index.html`:
 ```js
 window.GUILD_MANAGER_CONFIG = {
   API_MODE: 'backend',
-  API_BASE_URL: 'http://localhost:3001/api'
+  API_BASE_URL: 'https://van-xa-chi-coc-api.onrender.com/api'
 };
 ```
 
