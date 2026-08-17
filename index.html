@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guild Manager · Vạn Xà Chi Cốc</title>
+  <link rel="stylesheet" href="css/styles.css?v=20260817-render-wakeup1" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar">
+      <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ẩn Sidebar" title="Ẩn / hiện Sidebar"><span aria-hidden="true">‹</span></button>
+      <div class="brand">
+        <button class="brand-mark" id="brand-avatar" type="button" aria-label="Xem avatar Vạn Xà Chi Cốc" title="Bấm để xem ảnh lớn"><img src="assets/avatars/guild-manager.webp" alt="Vạn Xà Chi Cốc" /></button>
+        <div>
+          <strong>Guild Manager</strong>
+          <span>Vạn Xà Chi Cốc</span>
+        </div>
+      </div>
+
+      <button class="sidebar-banner" id="sidebar-banner" type="button" aria-label="Xem ảnh Vạn Xà Chi Cốc" title="Bấm để xem ảnh lớn">
+        <img src="assets/banners/van-xa-chi-coc-original.webp" alt="Vạn Xà Chi Cốc" />
+      </button>
+
+      <nav class="nav-list" aria-label="Điều hướng chính">
+        <button class="nav-item active" data-page="overview"><span class="nav-icon">⌂</span><span>Tổng quan</span></button>
+        <button class="nav-item" data-page="members"><span class="nav-icon">♟</span><span>Thành viên</span></button>
+        <button class="nav-item" data-page="formations"><span class="nav-icon">▦</span><span>Danh sách đoàn / PT</span></button>
+        <button class="nav-item" data-page="notes"><span class="nav-icon">✎</span><span>Ghi chú chung</span></button>
+        <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span><span>Cài đặt</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="avatar">L</div>
+          <div><strong>Leader</strong><span>Quản trị đội hình</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="app-main">
+      <div id="page-root"></div>
+    </main>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root"></div>
+
+  <script>
+    window.GUILD_MANAGER_CONFIG = { API_MODE: 'backend', API_BASE_URL: 'http://localhost:3001/api' };
+  </script>
+  <script async src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script type="module" src="js/app.js?v=20260817-webp1"></script>
+</body>
+</html>
