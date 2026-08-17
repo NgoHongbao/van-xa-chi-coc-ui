@@ -19,7 +19,7 @@ export async function openMemberForm({ modalRoot, snapshot, memberId = null, fin
     subtitle: 'Phái được lấy từ database; member chỉ lưu factionId.',
     body: `
       <div class="form-grid">
-        <label class="field full"><span>Tên thành viên</span><input id="member-name" value="${e(member?.name || '')}" placeholder="VD: Bae Hera" /></label>
+        <label class="field full"><span>Tên thành viên</span><input id="member-name" value="${e(member?.name || '')}" placeholder="Nhập tên thành viên" /></label>
         <label class="field"><span>Phái</span><select id="member-faction">
           <option value="">Chọn phái</option>
           ${factions.map((faction) => `<option value="${e(faction.id)}" ${member?.factionId === faction.id ? 'selected' : ''}>${e(faction.name)}</option>`).join('')}
