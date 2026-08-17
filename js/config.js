@@ -4,4 +4,4 @@ const storedMode = (() => {
 })();
 
 export const API_MODE = String(runtime.API_MODE || storedMode || 'mock').toLowerCase() === 'backend' ? 'backend' : 'mock';
-export const API_BASE_URL = String(runtime.API_BASE_URL || 'http://localhost:3001/api').replace(/\/$/, '');
+export const API_BASE_URL = String(runtime.API_BASE_URL || 'https://van-xa-chi-coc-ui.onrender.com/api').replace(/\/$/, '');
