@@ -208,6 +208,47 @@ html[data-theme="light"] .legion-screenshot-mode{background:#f3f6fb!important}
   min-height:100%!important;
 }
 
+/* Screenshot clones keep the active pastel palette instead of falling back to dark. */
+html[data-theme="pastel"] .legion-screenshot-mode{background:#f8eaf1!important}
+html[data-theme="pastel"] .capture-clone-mode{background:#f8eaf1!important;color:#52394e}
+html[data-theme="pastel"] .screenshot-static-clone .party-faction-summary{border-color:#e6c7d5!important}
+html[data-theme="pastel"] .screenshot-static-clone .party-faction-count{color:var(--faction-summary-color,#76566a)!important}
+/* html2canvas flattens the translucent gradient over --faction-color into a
+   solid faction fill. Use an opaque pastel card in captures and retain the
+   faction identity on the border/accent/avatar instead. */
+html[data-theme="pastel"] .legion-screenshot-mode.screenshot-static-clone .member-slot.drop-slot.faction-themed{
+  background:#fff9fc!important;
+  border-color:var(--faction-color,#d9a9c0)!important;
+  border-left-width:4px!important;
+  box-shadow:none!important;
+}
+/* Pre-composited solid pastel colors render identically in html2canvas. */
+html[data-theme="pastel"] .member-slot.drop-slot.faction-themed,
+html[data-theme="pastel"] .member-pool-item.faction-themed{
+  background:var(--faction-pastel-color,#fff9fc)!important;
+  background-image:none!important;
+}
+html[data-theme="pastel"] .screenshot-static-clone .member-slot.drop-slot.faction-themed{
+  box-shadow:none!important;
+}
+html[data-theme="pastel"] .screenshot-static-clone .member-slot.drop-slot.faction-themed,
+html[data-theme="pastel"] .screenshot-static-clone .member-slot.drop-slot.faction-themed:hover{
+  background:#fff8fc!important;
+  background-image:none!important;
+  border:1px solid #ead0dc!important;
+  border-left:4px solid var(--faction-color,#d9a9c0)!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+}
+html[data-theme="pastel"] .screenshot-static-clone .member-slot.drop-slot.faction-themed *{
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+html[data-theme="pastel"] .screenshot-static-clone .member-slot.drop-slot.faction-themed .member-avatar{
+  border:2px solid var(--faction-color,#d9a9c0)!important;
+  border-radius:50%!important;
+}
+
 /* A backend formation write is serialized to avoid out-of-order MOVE/SWAP
    responses when the real API is slow. No layout/style shift is introduced. */
 #page-root.formation-saving .member-slot[draggable="true"],
@@ -255,6 +296,35 @@ html[data-theme="pastel"] .party-status.ok{color:#167653;font-weight:900;letter-
 html[data-theme="pastel"] .member-pool-item.faction-themed{border-color:var(--faction-color,#c8a8b8);border-left-width:4px;background:linear-gradient(rgba(255,255,255,.88),rgba(255,248,252,.88)),var(--faction-color,#f2dbe6);box-shadow:inset 3px 0 0 var(--faction-color,#c8a8b8),0 4px 12px rgba(137,84,111,.07)}html[data-theme="pastel"] .member-pool-item.faction-themed:hover{border-color:var(--faction-color,#c8a8b8);border-left-color:var(--faction-color,#c8a8b8);background:linear-gradient(rgba(255,255,255,.76),rgba(255,245,250,.76)),var(--faction-color,#f2dbe6);box-shadow:inset 3px 0 0 var(--faction-color,#c8a8b8),0 7px 18px rgba(137,84,111,.12)}html[data-theme="pastel"] .member-pool-item.faction-themed .member-avatar{border:2px solid var(--faction-color,#c8a8b8);box-shadow:0 0 0 3px rgba(255,255,255,.72),0 0 10px var(--faction-color,#c8a8b8)}
 html[data-theme="pastel"] .member-pool-filter-row{padding:8px;border:1px solid #e7bfd1;border-radius:13px;background:linear-gradient(135deg,rgba(250,214,231,.72),rgba(240,226,249,.76));box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 5px 14px rgba(151,91,121,.07)}html[data-theme="pastel"] .member-pool-filter-row .member-pool-filter>span:first-child{color:#9b5275;font-weight:900;letter-spacing:.35px}html[data-theme="pastel"] .member-pool-filter select{height:34px;background:linear-gradient(180deg,#fffafd,#f9e5ef)!important;border-color:#ddaac2!important;color:#6d4259!important;box-shadow:inset 0 1px 0 #fff,0 4px 10px rgba(159,91,124,.08)}html[data-theme="pastel"] .member-pool-pt-filter select{background:linear-gradient(180deg,#fdfaff,#eee5f8)!important;border-color:#cbb6df!important;color:#67517d!important}html[data-theme="pastel"] .member-pool-filter select:hover{border-color:#d46d9e!important;background:linear-gradient(180deg,#fff,#f7dce8)!important}html[data-theme="pastel"] .member-pool-pt-filter select:hover{border-color:#a98bc8!important;background:linear-gradient(180deg,#fff,#e9def5)!important}html[data-theme="pastel"] .member-pool-filter select:focus{border-color:#df5b9c!important;box-shadow:0 0 0 3px rgba(223,91,156,.14),inset 0 1px 0 #fff}html[data-theme="pastel"] .member-pool-select-shell i{border-color:#bd668f}html[data-theme="pastel"] .member-pool-pt-filter .member-pool-select-shell i{border-color:#8667a5}
 html[data-theme="pastel"] .member-pool-filter-row{grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:6px}html[data-theme="pastel"] .member-pool-filter select{padding:0 22px 0 8px!important;font-size:8.5px;letter-spacing:-.05px}html[data-theme="pastel"] .member-pool-select-shell i{right:9px;width:6px;height:6px}html[data-theme="pastel"] .member-pool-select-shell.has-faction select{padding-left:22px!important}html[data-theme="pastel"] .member-pool-select-shell.has-faction:before{left:8px;width:6px;height:6px}
+
+/* Overview typography: keep the dense roster layout while making key details easier to scan. */
+.overview-page .section-kicker{font-size:11px}
+.overview-page .section-heading h2{font-size:18px}
+.overview-page .muted-text{font-size:12px}
+.overview-page .legion-header h3{font-size:16px}
+.overview-page .legion-header p{font-size:12px}
+.overview-page .type-badge{font-size:10px}
+.overview-page .legion-capacity{font-size:19px}
+.overview-page .legion-capacity small{font-size:11px}
+.overview-page .party-title-row h4{font-size:14px}
+.overview-page .capacity-pill,.overview-page .party-status{font-size:11px}
+.overview-page .mini-add{font-size:12px}
+.overview-page .member-name-line strong{font-size:12px}
+.overview-page .lead-badge{font-size:9px}
+.overview-page .member-class,.overview-page .pt-note{font-size:10.5px}
+.overview-page .empty-slot{font-size:10.5px}
+.overview-page .empty-slot small{font-size:10px}
+.overview-page .note-card-head h3,.overview-page .member-pool-head h3{font-size:15px}
+.overview-page .note-line p,.overview-page .empty-copy{font-size:12px}
+.overview-page .member-pool-head p{font-size:11px}
+.overview-page .member-pool-count{font-size:12px}
+.overview-page .member-pool-search input{font-size:12px}
+.overview-page .member-pool-filter-row .member-pool-filter>span:first-child{font-size:10px}
+.overview-page .member-pool-filter select{font-size:11px}
+.overview-page .member-pool-main strong{font-size:12px}
+.overview-page .member-pool-main>span{font-size:10px}
+.overview-page .member-pool-main small{font-size:9.5px}
+html[data-theme="pastel"] .overview-page .member-pool-filter select{font-size:10px}
 html[data-theme="pastel"] .manage-party-row{transition:background .16s ease,box-shadow .16s ease,transform .16s ease}html[data-theme="pastel"] .manage-party-row:hover{background:linear-gradient(90deg,rgba(246,199,220,.72),rgba(230,219,246,.66));box-shadow:inset 3px 0 0 var(--accent,#df5b9c),0 5px 14px rgba(148,87,117,.08);transform:translateX(2px)}html[data-theme="pastel"] .single-capacity span{background:linear-gradient(180deg,#fffafd,#eee5f8);border-color:#ceb8df;color:#826b94}html[data-theme="pastel"] .single-capacity b{color:#693e78}html[data-theme="pastel"] .manage-party-row:hover .single-capacity span{background:#fff7fb;border-color:var(--accent,#d78aaf);box-shadow:0 3px 9px rgba(143,82,112,.09)}
 html[data-theme="pastel"] .toolbar-card .search-box{background:linear-gradient(180deg,#fffafd,#f9e8f0);border-color:#dfb7ca;color:#bd668f;box-shadow:inset 0 1px 0 #fff,0 4px 12px rgba(151,91,121,.07)}html[data-theme="pastel"] .toolbar-card .search-box:focus-within{background:#fff;border-color:#df5b9c;box-shadow:0 0 0 3px rgba(223,91,156,.13),0 5px 14px rgba(151,91,121,.08)}html[data-theme="pastel"] .toolbar-card .search-box input{background:transparent!important;border:0!important;color:#5b3e52!important;box-shadow:none!important}html[data-theme="pastel"] .toolbar-card .search-box input::placeholder{color:#b58ca2}
 html[data-theme="pastel"] .member-table.table-row{border-bottom-color:#ead0dc;background:rgba(255,250,252,.72);transition:background .15s ease,box-shadow .15s ease,transform .15s ease}html[data-theme="pastel"] .member-table.table-row:hover{background:linear-gradient(rgba(255,255,255,.8),rgba(255,247,251,.8)),var(--faction-color,#f4dce7);box-shadow:inset 4px 0 0 var(--faction-color,#d9a9c0),0 5px 14px rgba(139,82,111,.07);transform:translateX(1px)}html[data-theme="pastel"] .member-table.table-head{border-bottom-color:#e4bdcf;color:#956f84}

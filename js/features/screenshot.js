@@ -22,7 +22,9 @@ function saveCanvas(canvas, filename) {
 }
 
 function screenshotBackground() {
-  return document.documentElement.dataset.theme === 'light' ? '#f3f6fb' : '#080b14';
+  const theme = document.documentElement.dataset.theme;
+  if (theme === 'pastel') return '#f8eaf1';
+  return theme === 'light' ? '#f3f6fb' : '#080b14';
 }
 
 async function renderCanvas(element, options = {}) {
@@ -34,12 +36,73 @@ async function renderCanvas(element, options = {}) {
     logging: false,
     scrollX: 0,
     scrollY: 0,
+    onclone: (clonedDocument) => freezePastelFactionCards(clonedDocument),
     ...options
+  });
+}
+
+function freezePastelFactionCards(root) {
+  if (document.documentElement.dataset.theme !== 'pastel') return;
+  root.querySelectorAll('.faction-themed, .capture-faction-card').forEach((card) => {
+    const faction = card.style.getPropertyValue('--faction-color').trim() || card.dataset.captureFaction || '#d9a9c0';
+    const pastel = card.style.getPropertyValue('--faction-pastel-color').trim() || card.dataset.capturePastel || '#fff8fc';
+
+    // Remove the selector that contains layered gradients and inset shadows.
+    // html2canvas reparses those declarations and can paint the faction color
+    // over the complete card. Plain, resolved colors are deterministic.
+    card.classList.remove('faction-themed');
+    card.classList.add('capture-faction-card');
+    card.dataset.captureFaction = faction;
+    card.dataset.capturePastel = pastel;
+    card.style.removeProperty('--faction-color');
+    card.style.removeProperty('--faction-pastel-color');
+    card.style.setProperty('background', pastel, 'important');
+    card.style.setProperty('background-color', pastel, 'important');
+    card.style.setProperty('background-image', 'none', 'important');
+    card.style.setProperty('box-shadow', 'none', 'important');
+    card.style.setProperty('border', '1px solid #ead0dc', 'important');
+    card.style.setProperty('border-left', `4px solid ${faction}`, 'important');
+    card.style.setProperty('border-radius', '10px', 'important');
+
+    card.querySelectorAll('*').forEach((child) => {
+      child.style.setProperty('box-shadow', 'none', 'important');
+      child.style.setProperty('text-shadow', 'none', 'important');
+    });
+    card.querySelectorAll('.faction-dot').forEach((dot) => {
+      dot.style.setProperty('background-color', faction, 'important');
+    });
+    const avatar = card.querySelector('.member-avatar');
+    if (avatar) {
+      avatar.style.setProperty('border', `2px solid ${faction}`, 'important');
+      avatar.style.setProperty('border-radius', '50%', 'important');
+    }
   });
 }
 
 function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+function cropCanvasToElement(canvas, container, target) {
+  const containerRect = container.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const scaleX = canvas.width / container.scrollWidth;
+  const scaleY = canvas.height / container.scrollHeight;
+  const sourceX = Math.round((targetRect.left - containerRect.left) * scaleX);
+  const sourceY = Math.round((targetRect.top - containerRect.top) * scaleY);
+  const sourceWidth = Math.round(targetRect.width * scaleX);
+  const sourceHeight = Math.round(targetRect.height * scaleY);
+  const cropped = document.createElement('canvas');
+  cropped.width = sourceWidth;
+  cropped.height = sourceHeight;
+  const context = cropped.getContext('2d');
+  if (!context) throw new Error('Không thể tạo vùng ảnh Đoàn.');
+  context.drawImage(
+    canvas,
+    sourceX, sourceY, sourceWidth, sourceHeight,
+    0, 0, sourceWidth, sourceHeight
+  );
+  return cropped;
 }
 
 function createOffscreenStage() {
@@ -63,13 +126,15 @@ function sanitizeUnsupportedColors(clone) {
     'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color',
     'outline-color', 'text-decoration-color', 'box-shadow', 'text-shadow', 'fill', 'stroke'
   ];
-  const dark = document.documentElement.dataset.theme !== 'light';
+  const theme = document.documentElement.dataset.theme;
+  const dark = theme === 'dark';
+  const pastel = theme === 'pastel';
   const fallback = (property) => {
-    if (property === 'color') return dark ? '#dce4f4' : '#263248';
+    if (property === 'color') return dark ? '#dce4f4' : pastel ? '#52394e' : '#263248';
     if (property === 'background-color') return 'transparent';
     if (property === 'background-image' || property.includes('shadow')) return 'none';
     if (property === 'fill' || property === 'stroke') return 'none';
-    return dark ? '#2a3448' : '#d7deea';
+    return dark ? '#2a3448' : pastel ? '#e7bfd1' : '#d7deea';
   };
 
   [clone, ...clone.querySelectorAll('*')].forEach((element) => {
@@ -79,16 +144,18 @@ function sanitizeUnsupportedColors(clone) {
       if (unsupportedColor.test(value)) element.style.setProperty(property, fallback(property));
     });
   });
-  clone.style.setProperty('--purple-2', dark ? '#6f46c9' : '#7651d5');
+  clone.style.setProperty('--purple-2', dark ? '#6f46c9' : pastel ? '#c94785' : '#7651d5');
 }
 
 async function withClone(source, className, task) {
   const stage = createOffscreenStage();
   const clone = source.cloneNode(true);
-  clone.classList.add(className, 'screenshot-static-clone');
+  if (className) clone.classList.add(className);
+  clone.classList.add('screenshot-static-clone');
   stripInteractiveState(clone);
   stage.append(clone);
   sanitizeUnsupportedColors(clone);
+  freezePastelFactionCards(clone);
 
   try {
     // Wait until layout/fonts/styles have settled on the detached visual copy.
@@ -135,9 +202,10 @@ export async function captureFullOverview({ root, toast }) {
 }
 
 export async function captureLegion({ root, legionId, legionName, toast }) {
+  const surface = document.querySelector('.app-shell');
   const legion = [...root.querySelectorAll('.legion-card[data-legion-id]')]
     .find((item) => item.dataset.legionId === legionId);
-  if (!legion) throw new Error('Không tìm thấy Đoàn cần chụp.');
+  if (!surface || !legion) throw new Error('Không tìm thấy Đoàn cần chụp.');
 
   const button = legion.querySelector('[data-action="capture-legion"]');
   if (button) {
@@ -148,15 +216,23 @@ export async function captureLegion({ root, legionId, legionName, toast }) {
   }
 
   try {
-    await withClone(legion, 'legion-screenshot-mode', async (clone) => {
-      const width = Math.max(clone.scrollWidth, 1560);
-      const canvas = await renderCanvas(clone, {
-        scale: 2,
-        width,
+    // Use the same full-app clone as the overview capture, then crop to the
+    // requested legion. Its page/grid ancestors therefore remain identical.
+    await withClone(surface, 'capture-clone-mode', async (clone) => {
+      await nextFrame();
+      const clonedLegion = [...clone.querySelectorAll('.legion-card[data-legion-id]')]
+        .find((item) => item.dataset.legionId === legionId);
+      if (!clonedLegion) throw new Error('Không tìm thấy bản sao Đoàn cần chụp.');
+
+      // Render the overview canvas itself and crop its pixels. This guarantees
+      // that a legion capture uses exactly the same paint result as Overview.
+      const overviewCanvas = await renderCanvas(clone, {
+        width: clone.scrollWidth,
         height: clone.scrollHeight,
-        windowWidth: width,
+        windowWidth: clone.scrollWidth,
         windowHeight: clone.scrollHeight
       });
+      const canvas = cropCanvasToElement(overviewCanvas, clone, clonedLegion);
       const safeName = (legionName || legionId)
         .toLowerCase()
         .replace(/[^a-z0-9à-ỹ]+/gi, '-')

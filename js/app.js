@@ -4,7 +4,7 @@ import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js';
 import { avatarContent, memberAvatarSrc } from './utils/avatar.js?v=20260817-webp1';
 import { bindDragDrop } from './features/dragDrop.js';
-import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260817-screenshot-fix1';
+import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260818-cute-capture9';
 import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';
@@ -79,6 +79,14 @@ function factionName(member) {
 function factionColor(member) {
   const color = factionById(member?.factionId)?.color || '#64748b';
   return /^#[0-9a-f]{6}$/i.test(color) ? color : '#64748b';
+}
+
+function factionPastelColor(member) {
+  const color = factionColor(member);
+  const channels = [1, 3, 5].map((index) => Number.parseInt(color.slice(index, index + 2), 16));
+  const base = [255, 249, 252];
+  const amount = .11;
+  return `rgb(${base.map((channel, index) => Math.round(channel * (1 - amount) + channels[index] * amount)).join(', ')})`;
 }
 
 function findAssignment(memberId) {
@@ -279,7 +287,7 @@ function renderMemberPoolItem(member) {
   const color = factionColor(member);
   const locationText = location ? `${location.legion.name} · ${location.party.name} #${location.assignment.position}` : 'Chưa xếp PT';
   return `
-    <div class="member-pool-item faction-themed" style="--faction-color:${color}" draggable="true" data-member-pool-item data-member-id="${member.id}" data-member-name="${e(member.name.toLocaleLowerCase('vi'))}" data-faction-id="${e(member.factionId || '')}" data-pt-status="${location ? 'assigned' : 'unassigned'}">
+    <div class="member-pool-item faction-themed" style="--faction-color:${color};--faction-pastel-color:${factionPastelColor(member)}" draggable="true" data-member-pool-item data-member-id="${member.id}" data-member-name="${e(member.name.toLocaleLowerCase('vi'))}" data-faction-id="${e(member.factionId || '')}" data-pt-status="${location ? 'assigned' : 'unassigned'}">
       <span class="member-pool-grip" title="Kéo vào PT">⋮⋮</span>
       <button type="button" class="member-avatar avatar-preview-button" data-action="view-member-avatar" data-member-id="${e(member.id)}" title="Xem avatar ${e(member.name)}">${avatarContent(member)}</button>
       <div class="member-pool-main">
@@ -424,7 +432,7 @@ function renderMemberSlot(legion, party, position, assignment) {
   const color = factionColor(member);
   const noteColor = assignment.noteColor || 'purple';
   return `
-    <div class="member-slot drop-slot faction-themed" style="--faction-color:${color}" draggable="true" data-drop-slot data-member-id="${member.id}" data-legion-id="${legion.id}" data-party-id="${party.id}" data-position="${position}">
+    <div class="member-slot drop-slot faction-themed" style="--faction-color:${color};--faction-pastel-color:${factionPastelColor(member)}" draggable="true" data-drop-slot data-member-id="${member.id}" data-legion-id="${legion.id}" data-party-id="${party.id}" data-position="${position}">
       <div class="drag-handle" title="Kéo để MOVE / SWAP / REORDER">⋮⋮</div>
       <button type="button" class="member-avatar avatar-preview-button ${lead ? 'lead' : ''}" data-action="view-member-avatar" data-member-id="${e(member.id)}" title="Xem avatar ${e(member.name)}">${avatarContent(member)}</button>
       <div class="member-slot-main">
