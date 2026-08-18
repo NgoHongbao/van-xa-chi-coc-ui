@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../config.js?v=20260818-render-api1';
+import { getAuthToken, clearAuth } from '../auth.js?v=20260819-cute-login1';
 
 const DEFAULT_RETRY_DELAY = 2500;
 const MAX_RETRIES = 3;
@@ -28,7 +29,7 @@ async function request(path, options = {}, retryOptions = {}) {
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
       const response = await fetch(`${API_BASE_URL}${path}`, {
-        headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+        headers: { 'Content-Type': 'application/json', ...(getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {}), ...(options.headers || {}) },
         ...options
       });
 
@@ -45,6 +46,10 @@ async function request(path, options = {}, retryOptions = {}) {
         const error = new Error(body?.message || `API error ${response.status}`);
         error.code = body?.code;
         error.details = body?.details;
+        if (response.status === 401) {
+          clearAuth();
+          window.dispatchEvent(new CustomEvent('auth:required', { detail: body }));
+        }
         throw error;
       }
       return body;

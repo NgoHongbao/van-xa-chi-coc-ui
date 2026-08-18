@@ -10,6 +10,7 @@ import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/m
 import { openModal, closeModal } from './components/modal.js';
 import { bindSidebarToggle } from './features/sidebar.js';
 import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20260817-pastel-default1';
+import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20260819-cute-login1';
 
 const root = document.querySelector('#page-root');
 const modalRoot = document.querySelector('#modal-root');
@@ -20,6 +21,8 @@ const sidebarToggle = document.querySelector('#sidebar-toggle');
 const themeQuickToggle = document.querySelector('#theme-quick-toggle');
 const brandAvatar = document.querySelector('#brand-avatar');
 const sidebarBanner = document.querySelector('#sidebar-banner');
+const loginScreen = document.querySelector('#login-screen');
+const loginForm = document.querySelector('#login-form');
 bindSidebarToggle({ shell: appShell, button: sidebarToggle });
 initTheme();
 updateThemeToggle(themeQuickToggle);
@@ -809,4 +812,53 @@ async function initializeApp() {
   }
 }
 
-initializeApp();
+function showLogin(message = '') {
+  clearAuth();
+  state.snapshot = null;
+  document.body.classList.remove('is-authenticated');
+  document.body.classList.add('auth-pending');
+  const error = document.querySelector('#login-error');
+  if (error) error.textContent = message;
+  setTimeout(() => document.querySelector('#login-username')?.focus(), 50);
+}
+
+async function enterApp() {
+  document.body.classList.add('is-authenticated');
+  document.body.classList.remove('auth-pending');
+  const user = getAuthUser();
+  const name = document.querySelector('.user-chip strong');
+  if (name && user?.displayName) name.textContent = user.displayName;
+  await initializeApp();
+}
+
+loginForm?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const submit = document.querySelector('#login-submit');
+  const error = document.querySelector('#login-error');
+  submit.disabled = true;
+  submit.innerHTML = 'Đang đăng nhập…';
+  error.textContent = '';
+  try {
+    const session = await login(document.querySelector('#login-username').value.trim(), document.querySelector('#login-password').value);
+    saveAuth(session);
+    document.querySelector('#login-password').value = '';
+    await enterApp();
+  } catch (err) {
+    error.textContent = err.message || 'Không thể đăng nhập.';
+  } finally {
+    submit.disabled = false;
+    submit.innerHTML = '<span class="login-button-heart">♡</span> Đăng nhập <span>→</span>';
+  }
+});
+
+document.querySelector('#toggle-password')?.addEventListener('click', (event) => {
+  const input = document.querySelector('#login-password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+  event.currentTarget.setAttribute('aria-label', input.type === 'password' ? 'Hiện mật khẩu' : 'Ẩn mật khẩu');
+});
+document.querySelector('#login-theme')?.addEventListener('click', () => toggleTheme());
+document.querySelector('#logout-button')?.addEventListener('click', () => showLogin('Bạn đã đăng xuất an toàn.'));
+window.addEventListener('auth:required', (event) => showLogin(event.detail?.message || 'Phiên đăng nhập đã hết hạn.'));
+
+clearRememberedAuth();
+if (getAuthToken()) enterApp(); else showLogin();
