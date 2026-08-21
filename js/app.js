@@ -4,7 +4,7 @@ import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js';
 import { avatarContent, memberAvatarSrc } from './utils/avatar.js?v=20260817-webp1';
 import { bindDragDrop } from './features/dragDrop.js';
-import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260818-cute-capture9';
+import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260821-legion-focus';
 import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';
@@ -295,7 +295,6 @@ function renderMemberPoolItem(member) {
       <button type="button" class="member-avatar avatar-preview-button" data-action="view-member-avatar" data-member-id="${e(member.id)}" title="Xem avatar ${e(member.name)}">${avatarContent(member)}</button>
       <div class="member-pool-main">
         <strong title="${e(member.name)}">${e(member.name)}</strong>
-        <span><i class="faction-dot"></i>${e(factionName(member))} · ${e(roleName(member.roleId))}</span>
         <small class="${location ? 'assigned' : 'unassigned'}">${e(locationText)}</small>
       </div>
     </div>

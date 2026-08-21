@@ -83,28 +83,6 @@ function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 }
 
-function cropCanvasToElement(canvas, container, target) {
-  const containerRect = container.getBoundingClientRect();
-  const targetRect = target.getBoundingClientRect();
-  const scaleX = canvas.width / container.scrollWidth;
-  const scaleY = canvas.height / container.scrollHeight;
-  const sourceX = Math.round((targetRect.left - containerRect.left) * scaleX);
-  const sourceY = Math.round((targetRect.top - containerRect.top) * scaleY);
-  const sourceWidth = Math.round(targetRect.width * scaleX);
-  const sourceHeight = Math.round(targetRect.height * scaleY);
-  const cropped = document.createElement('canvas');
-  cropped.width = sourceWidth;
-  cropped.height = sourceHeight;
-  const context = cropped.getContext('2d');
-  if (!context) throw new Error('Không thể tạo vùng ảnh Đoàn.');
-  context.drawImage(
-    canvas,
-    sourceX, sourceY, sourceWidth, sourceHeight,
-    0, 0, sourceWidth, sourceHeight
-  );
-  return cropped;
-}
-
 function createOffscreenStage() {
   const stage = document.createElement('div');
   stage.className = 'screenshot-offscreen-stage';
@@ -202,10 +180,9 @@ export async function captureFullOverview({ root, toast }) {
 }
 
 export async function captureLegion({ root, legionId, legionName, toast }) {
-  const surface = document.querySelector('.app-shell');
   const legion = [...root.querySelectorAll('.legion-card[data-legion-id]')]
     .find((item) => item.dataset.legionId === legionId);
-  if (!surface || !legion) throw new Error('Không tìm thấy Đoàn cần chụp.');
+  if (!legion) throw new Error('Không tìm thấy Đoàn cần chụp.');
 
   const button = legion.querySelector('[data-action="capture-legion"]');
   if (button) {
@@ -216,23 +193,15 @@ export async function captureLegion({ root, legionId, legionName, toast }) {
   }
 
   try {
-    // Use the same full-app clone as the overview capture, then crop to the
-    // requested legion. Its page/grid ancestors therefore remain identical.
-    await withClone(surface, 'capture-clone-mode', async (clone) => {
-      await nextFrame();
-      const clonedLegion = [...clone.querySelectorAll('.legion-card[data-legion-id]')]
-        .find((item) => item.dataset.legionId === legionId);
-      if (!clonedLegion) throw new Error('Không tìm thấy bản sao Đoàn cần chụp.');
-
-      // Render the overview canvas itself and crop its pixels. This guarantees
-      // that a legion capture uses exactly the same paint result as Overview.
-      const overviewCanvas = await renderCanvas(clone, {
+    // Render only the requested legion so the sidebar and surrounding overview
+    // can never become part of the downloaded image.
+    await withClone(legion, 'legion-screenshot-mode', async (clone) => {
+      const canvas = await renderCanvas(clone, {
         width: clone.scrollWidth,
         height: clone.scrollHeight,
         windowWidth: clone.scrollWidth,
         windowHeight: clone.scrollHeight
       });
-      const canvas = cropCanvasToElement(overviewCanvas, clone, clonedLegion);
       const safeName = (legionName || legionId)
         .toLowerCase()
         .replace(/[^a-z0-9à-ỹ]+/gi, '-')
