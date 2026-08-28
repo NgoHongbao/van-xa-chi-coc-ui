@@ -434,7 +434,7 @@ function renderMemberSlot(legion, party, position, assignment) {
   const color = factionColor(member);
   const noteColor = assignment.noteColor || 'purple';
   return `
-    <div class="member-slot drop-slot faction-themed" style="--faction-color:${color};--faction-pastel-color:${factionPastelColor(member)}" draggable="true" data-drop-slot data-member-id="${member.id}" data-legion-id="${legion.id}" data-party-id="${party.id}" data-position="${position}">
+    <div class="member-slot drop-slot faction-themed" style="--faction-color:${color};--faction-pastel-color:${factionPastelColor(member)}" draggable="true" data-drop-slot data-member-id="${member.id}" data-legion-id="${legion.id}" data-party-id="${party.id}" data-position="${position}" title="Kéo để đổi vị trí · Nhấp đúp để gỡ khỏi PT">
       <div class="drag-handle" title="Kéo để MOVE / SWAP / REORDER">⋮⋮</div>
       <button type="button" class="member-avatar avatar-preview-button ${lead ? 'lead' : ''}" data-action="view-member-avatar" data-member-id="${e(member.id)}" title="Xem avatar ${e(member.name)}">${avatarContent(member)}</button>
       <div class="member-slot-main">
@@ -601,6 +601,10 @@ function renderSettings() {
 }
 
 function bindCurrentPage() {
+  if (state.page !== 'overview' && root._formationDragController) {
+    root._formationDragController.abort();
+    root._formationDragController = null;
+  }
   root.querySelectorAll('[data-page-link]').forEach((el) => el.addEventListener('click', () => setPage(el.dataset.pageLink)));
   root.querySelectorAll('[data-action]').forEach((el) => el.addEventListener('click', handleAction));
   if (state.page === 'overview') {

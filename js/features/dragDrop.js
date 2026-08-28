@@ -5,6 +5,7 @@ import {
   cloneData,
   applyOptimisticAssign,
   applyOptimisticMove,
+  applyOptimisticRemove,
   applyOptimisticSwap,
   findAssignmentLocation,
   findPartyLocation
@@ -45,6 +46,51 @@ function validateFrontendMove(snapshot, memberId, targetPartyId) {
 
 export function bindDragDrop({ root, getSnapshot, setSnapshot, render, api, toast }) {
   let draggedMemberId = null;
+  let scrollFrame = null;
+  let scrollSpeed = 0;
+  const mainScroller = document.querySelector('.main-content');
+  const previousController = root._formationDragController;
+  previousController?.abort();
+  const controller = new AbortController();
+  root._formationDragController = controller;
+  const listenerOptions = { signal: controller.signal };
+
+  const stopAutoScroll = () => {
+    scrollSpeed = 0;
+    if (scrollFrame !== null) cancelAnimationFrame(scrollFrame);
+    scrollFrame = null;
+  };
+  controller.signal.addEventListener('abort', stopAutoScroll, { once: true });
+
+  const runAutoScroll = () => {
+    if (!draggedMemberId || !scrollSpeed) {
+      scrollFrame = null;
+      return;
+    }
+    if (mainScroller && mainScroller.scrollHeight > mainScroller.clientHeight) {
+      mainScroller.scrollTop += scrollSpeed;
+    } else {
+      window.scrollBy(0, scrollSpeed);
+    }
+    scrollFrame = requestAnimationFrame(runAutoScroll);
+  };
+
+  const updateAutoScroll = (event) => {
+    if (!draggedMemberId) return;
+    const rect = mainScroller?.getBoundingClientRect() || { top: 0, bottom: window.innerHeight };
+    const edgeSize = Math.min(120, Math.max(70, (rect.bottom - rect.top) * 0.16));
+    let nextSpeed = 0;
+    if (event.clientY < rect.top + edgeSize) {
+      nextSpeed = -Math.ceil(4 + 20 * (rect.top + edgeSize - event.clientY) / edgeSize);
+    } else if (event.clientY > rect.bottom - edgeSize) {
+      nextSpeed = Math.ceil(4 + 20 * (event.clientY - (rect.bottom - edgeSize)) / edgeSize);
+    }
+    scrollSpeed = Math.max(-24, Math.min(24, nextSpeed));
+    if (scrollSpeed && scrollFrame === null) scrollFrame = requestAnimationFrame(runAutoScroll);
+    if (!scrollSpeed) stopAutoScroll();
+  };
+
+  root.addEventListener('dragover', updateAutoScroll, listenerOptions);
 
   root.querySelectorAll('.member-slot[draggable="true"], .member-pool-item[draggable="true"]').forEach((slot) => {
     slot.addEventListener('dragstart', (event) => {
@@ -57,12 +103,37 @@ export function bindDragDrop({ root, getSnapshot, setSnapshot, render, api, toas
       root.classList.add('is-dragging-member');
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', draggedMemberId);
-    });
+    }, listenerOptions);
 
     slot.addEventListener('dragend', () => {
       draggedMemberId = null;
+      stopAutoScroll();
       clearDropState(root);
-    });
+    }, listenerOptions);
+  });
+
+  root.querySelectorAll('.member-slot[data-member-id]').forEach((slot) => {
+    slot.addEventListener('dblclick', async (event) => {
+      if (event.target.closest('button') || formationMutationPending) return;
+      event.preventDefault();
+      const memberId = slot.dataset.memberId;
+      const before = cloneData(getSnapshot());
+      formationMutationPending = true;
+      root.classList.add('formation-saving');
+      try {
+        if (!applyOptimisticRemove(getSnapshot(), memberId)) return;
+        render();
+        await api.removeFromParty(memberId);
+        toast('Đã gỡ thành viên khỏi PT và trả về danh sách thành viên.');
+      } catch (error) {
+        setSnapshot(before);
+        render();
+        toast(error.message || 'Không thể gỡ thành viên khỏi PT. UI đã được hoàn tác.', 'error');
+      } finally {
+        formationMutationPending = false;
+        root.classList.remove('formation-saving');
+      }
+    }, listenerOptions);
   });
 
   root.querySelectorAll('[data-drop-slot]').forEach((target) => {
@@ -95,6 +166,7 @@ export function bindDragDrop({ root, getSnapshot, setSnapshot, render, api, toas
 
     target.addEventListener('drop', async (event) => {
       event.preventDefault();
+      stopAutoScroll();
       const sourceMemberId = draggedMemberId || event.dataTransfer.getData('text/plain');
       const targetData = describeTarget(getDropTarget(event.target));
       if (!sourceMemberId || !targetData || targetData.memberId === sourceMemberId) {
@@ -166,6 +238,6 @@ export function bindDragDrop({ root, getSnapshot, setSnapshot, render, api, toas
         root.classList.remove('formation-saving');
         clearDropState(root);
       }
-    });
+    }, listenerOptions);
   });
 }

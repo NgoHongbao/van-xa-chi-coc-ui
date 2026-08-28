@@ -42,6 +42,24 @@ body.capture-mode{overflow:visible}body.capture-mode .app-shell{height:auto;min-
 .pt-note.note-blue{color:#bfdbfe;background:#172c46;border-color:#2e5d8e}
 .pt-note.note-pink{color:#fbcfe8;background:#3a2032;border-color:#7d3d65}
 
+/* PT Note is intentionally a light label in every theme for quick scanning. */
+.member-slot .pt-note.note-purple{--pt-note-accent:#8b5cf6}
+.member-slot .pt-note.note-red{--pt-note-accent:#dc5062}
+.member-slot .pt-note.note-yellow{--pt-note-accent:#d19a19}
+.member-slot .pt-note.note-green{--pt-note-accent:#2c9564}
+.member-slot .pt-note.note-blue{--pt-note-accent:#3b82c4}
+.member-slot .pt-note.note-pink{--pt-note-accent:#d05b94}
+.member-slot .pt-note:not(.muted){
+  background:#fff!important;
+  border:1px solid color-mix(in srgb,var(--pt-note-accent,#64748b) 48%,#d8dee9)!important;
+  border-left:3px solid var(--pt-note-accent,#64748b)!important;
+  color:#1f2937!important;
+  font-weight:800;
+  padding:3px 7px;
+  box-shadow:0 1px 2px rgba(15,23,42,.08),0 0 0 1px rgba(255,255,255,.35) inset;
+}
+.member-slot[data-member-id]{user-select:none}
+
 .mini-add:disabled{background:#151b28;border-color:#252d40;color:#667089}
 .legion-screenshot-mode .member-slot.faction-themed{border-left-width:4px}
 .legion-screenshot-mode .member-class{display:none}

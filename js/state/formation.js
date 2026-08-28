@@ -59,6 +59,13 @@ export function applyOptimisticMove(snapshot, { memberId, targetPartyId, targetP
   target.party.members.push(source.assignment);
 }
 
+export function applyOptimisticRemove(snapshot, memberId) {
+  const source = findAssignmentLocation(snapshot, memberId);
+  if (!source) return false;
+  source.party.members = source.party.members.filter((item) => item.memberId !== memberId);
+  return true;
+}
+
 export function applyOptimisticSwap(snapshot, { memberAId, memberBId }) {
   const a = findAssignmentLocation(snapshot, memberAId);
   const b = findAssignmentLocation(snapshot, memberBId);
