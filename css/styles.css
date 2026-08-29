@@ -212,6 +212,29 @@ html[data-theme="light"] .legion-screenshot-mode{background:#f3f6fb!important}
   caret-color:transparent!important;
 }
 .screenshot-static-clone [aria-busy="true"]{opacity:1}
+/* html2canvas cannot parse Chrome's computed color(srgb ...) output from
+   color-mix(). Flatten modern paint effects on the capture clone, including
+   pseudo-elements that JavaScript cannot sanitize with inline styles. */
+.screenshot-color-safe,
+.screenshot-color-safe *,
+.screenshot-color-safe::before,
+.screenshot-color-safe::after,
+.screenshot-color-safe *::before,
+.screenshot-color-safe *::after{
+  background-image:none!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+}
+.screenshot-color-safe .member-slot.faction-themed,
+.screenshot-color-safe .member-pool-item.faction-themed{
+  border-left-color:var(--faction-color,#64748b)!important;
+}
+.screenshot-color-safe .pt-note:not(.muted){
+  border-color:#d8dee9!important;
+  border-left-color:var(--pt-note-accent,#64748b)!important;
+}
 .capture-clone-mode{
   height:auto!important;
   min-height:100vh!important;

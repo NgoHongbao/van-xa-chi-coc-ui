@@ -36,7 +36,10 @@ async function renderCanvas(element, options = {}) {
     logging: false,
     scrollX: 0,
     scrollY: 0,
-    onclone: (clonedDocument) => freezePastelFactionCards(clonedDocument),
+    onclone: (clonedDocument) => {
+      sanitizeUnsupportedColors(clonedDocument.documentElement);
+      freezePastelFactionCards(clonedDocument);
+    },
     ...options
   });
 }
@@ -116,7 +119,8 @@ function sanitizeUnsupportedColors(clone) {
   };
 
   [clone, ...clone.querySelectorAll('*')].forEach((element) => {
-    const computed = getComputedStyle(element);
+    const view = element.ownerDocument?.defaultView || window;
+    const computed = view.getComputedStyle(element);
     properties.forEach((property) => {
       const value = computed.getPropertyValue(property);
       if (unsupportedColor.test(value)) element.style.setProperty(property, fallback(property));
@@ -129,7 +133,7 @@ async function withClone(source, className, task) {
   const stage = createOffscreenStage();
   const clone = source.cloneNode(true);
   if (className) clone.classList.add(className);
-  clone.classList.add('screenshot-static-clone');
+  clone.classList.add('screenshot-static-clone', 'screenshot-color-safe');
   stripInteractiveState(clone);
   stage.append(clone);
   sanitizeUnsupportedColors(clone);
