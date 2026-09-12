@@ -1,4 +1,4 @@
-import { api, API_MODE } from './api.js?v=20260818-render-api1';
+import { api, API_MODE } from './api.js?v=20260912-legion-wing';
 import { PARTY_CAPACITY } from './constants.js';
 import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js';
@@ -103,7 +103,7 @@ function findAssignment(memberId) {
 }
 
 function typeLabel(type) {
-  return type === 'DEF' ? 'DEF' : type === 'ATK' ? 'ATK' : 'CƠ ĐỘNG';
+  return type === 'DEF' ? 'DEF' : type === 'ATK' ? 'ATK' : type === 'WING' ? 'CÁNH' : 'CƠ ĐỘNG';
 }
 
 function toast(message, kind = 'success') {

@@ -129,6 +129,12 @@ const seed = {
     { id: 'l3', name: 'ĐOÀN 3 – CƠ ĐỘNG', type: 'MOBILE', parties: [
       { id: 'p31', name: 'PT1', note: '', members: [] },
       { id: 'p32', name: 'PT2', note: '', members: [] }
+    ]},
+    { id: 'l4', name: 'ĐOÀN CÁNH', type: 'WING', parties: [
+      { id: 'p41', name: 'PT1', note: '', members: [] },
+      { id: 'p42', name: 'PT2', note: '', members: [] },
+      { id: 'p43', name: 'PT3', note: '', members: [] },
+      { id: 'p44', name: 'PT4', note: '', members: [] }
     ]}
   ],
   globalNotes: []
@@ -189,6 +195,14 @@ function normalize(data) {
   }
 
   data.legions ||= [];
+  if (!data.legions.some((legion) => legion.id === 'l4')) {
+    data.legions.push(clone(seed.legions.find((legion) => legion.id === 'l4')));
+  }
+  const wingLegion = data.legions.find((legion) => legion.id === 'l4');
+  if (wingLegion) {
+    wingLegion.name = 'ĐOÀN CÁNH';
+    wingLegion.type = 'WING';
+  }
   const validMemberIds = new Set(data.members.map((member) => member.id));
   const seenMembers = new Set();
   data.legions.forEach((legion) => {
