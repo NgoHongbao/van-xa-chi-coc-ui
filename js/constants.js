@@ -9,7 +9,8 @@ export const DEFAULT_FACTIONS = Object.freeze([
   { id: 'thiet-y', name: 'Thiết Y', color: '#facc15' },
   { id: 'to-van', name: 'Tố Vấn', color: '#f472b6' },
   { id: 'long-ngam', name: 'Long Ngâm', color: '#86efac' },
-  { id: 'cuu-linh', name: 'Cửu Linh', color: '#a855f7' }
+  { id: 'cuu-linh', name: 'Cửu Linh', color: '#a855f7' },
+  { id: 'huyen-co', name: 'Huyền Cơ', color: '#bef264' }
 ]);
 
 export const PT_NOTE_COLORS = Object.freeze([

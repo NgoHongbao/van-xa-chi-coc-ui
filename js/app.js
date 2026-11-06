@@ -411,7 +411,8 @@ function renderPartyFactionSummary(party) {
     'thiet-y': 'TY',
     'to-van': 'TV',
     'long-ngam': 'LN',
-    'cuu-linh': 'CL'
+    'cuu-linh': 'CL',
+    'huyen-co': 'HC'
   };
   const counts = new Map();
   for (const assignment of party.members || []) {

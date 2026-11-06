@@ -203,6 +203,8 @@ function normalize(data) {
     wingLegion.name = 'ĐOÀN CÁNH';
     wingLegion.type = 'WING';
   }
+  const legionOrder = { l1: 1, l2: 2, l4: 3, l3: 4 };
+  data.legions.sort((a, b) => (legionOrder[a.id] ?? 99) - (legionOrder[b.id] ?? 99));
   const validMemberIds = new Set(data.members.map((member) => member.id));
   const seenMembers = new Set();
   data.legions.forEach((legion) => {

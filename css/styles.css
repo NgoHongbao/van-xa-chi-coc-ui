@@ -402,3 +402,33 @@ html[data-theme="pastel"] .member-table.table-row:not([data-role-id="r_member"])
 .legion-card.wing{--accent:var(--blue);--accent-soft:var(--blue-soft);--accent-fade:rgba(75,163,255,.07);--accent-glow:rgba(75,163,255,.35);--accent-border:rgba(75,163,255,.26)}
 .manage-legion.wing{--accent:var(--blue);--accent-soft:var(--blue-soft);--accent-border:rgba(75,163,255,.26)}
 html[data-theme="light"] .legion-card.wing{--accent-soft:#e8f3ff;--accent-fade:rgba(75,143,220,.08);--accent-border:rgba(57,126,201,.22)}
+
+/* Light green member rows for Huyen Co across themes. */
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"]{
+  background:#e2f8e7;
+  color:#21543a;
+  border-bottom-color:#b9e5c5;
+  box-shadow:inset 3px 0 0 #86d99c;
+}
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"]:hover{
+  background:#d1f1d9;
+  box-shadow:inset 4px 0 0 #70c989;
+}
+html .faction-row[data-faction-id="huyen-co"] .identity strong,
+html .faction-row[data-faction-id="huyen-co"] .pt-path strong{color:#21543a}
+html .faction-row[data-faction-id="huyen-co"] .identity span,
+html .faction-row[data-faction-id="huyen-co"] .pt-path span,
+html .faction-row[data-faction-id="huyen-co"] .muted-text{color:#537661}
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"] .faction-chip,
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"]:hover .faction-chip,
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"] .faction-chip:hover{
+  color:#27613b;
+  border-color:#86d99c;
+  background:#effcf2;
+  box-shadow:inset 3px 0 0 #86d99c;
+}
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"] .faction-dot,
+html .member-table.table-row.faction-row[data-faction-id="huyen-co"]:hover .faction-dot{
+  background:#4caf68;
+  box-shadow:0 0 8px rgba(76,175,104,.45);
+}
