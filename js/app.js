@@ -103,7 +103,7 @@ function findAssignment(memberId) {
 }
 
 function typeLabel(type) {
-  return type === 'DEF' ? 'DEF' : type === 'ATK' ? 'ATK' : type === 'WING' ? 'CÁNH' : 'CƠ ĐỘNG';
+  return type === 'DEF' ? 'DEF' : ['ATK', 'WING'].includes(type) ? 'ATK' : 'CƠ ĐỘNG';
 }
 
 function toast(message, kind = 'success') {

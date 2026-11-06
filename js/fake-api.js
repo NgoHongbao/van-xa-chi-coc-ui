@@ -120,17 +120,17 @@ const seed = {
       { id: 'p13', name: 'PT3', note: '', members: [] },
       { id: 'p14', name: 'PT4', note: '', members: [] }
     ]},
-    { id: 'l2', name: 'ĐOÀN 2 – ATK TRỤ', type: 'ATK', parties: [
+    { id: 'l2', name: 'ĐOÀN 2 – Cánh Phải', type: 'ATK', parties: [
       { id: 'p21', name: 'PT1', note: '', members: [] },
       { id: 'p22', name: 'PT2', note: '', members: [] },
       { id: 'p23', name: 'PT3', note: '', members: [] },
       { id: 'p24', name: 'PT4', note: '', members: [] }
     ]},
-    { id: 'l3', name: 'ĐOÀN 3 – CƠ ĐỘNG', type: 'MOBILE', parties: [
+    { id: 'l3', name: 'ĐOÀN CƠ ĐỘNG', type: 'MOBILE', parties: [
       { id: 'p31', name: 'PT1', note: '', members: [] },
       { id: 'p32', name: 'PT2', note: '', members: [] }
     ]},
-    { id: 'l4', name: 'ĐOÀN CÁNH', type: 'WING', parties: [
+    { id: 'l4', name: 'ĐOÀN 3 – Cánh Trái', type: 'WING', parties: [
       { id: 'p41', name: 'PT1', note: '', members: [] },
       { id: 'p42', name: 'PT2', note: '', members: [] },
       { id: 'p43', name: 'PT3', note: '', members: [] },
@@ -200,10 +200,14 @@ function normalize(data) {
   }
   const wingLegion = data.legions.find((legion) => legion.id === 'l4');
   if (wingLegion) {
-    wingLegion.name = 'ĐOÀN CÁNH';
+    wingLegion.name = 'ĐOÀN 3 – Cánh Trái';
     wingLegion.type = 'WING';
   }
   const legionOrder = { l1: 1, l2: 2, l4: 3, l3: 4 };
+  const legionNames = { l2: 'ĐOÀN 2 – Cánh Phải', l4: 'ĐOÀN 3 – Cánh Trái', l3: 'ĐOÀN CƠ ĐỘNG' };
+  data.legions.forEach((legion) => {
+    if (legionNames[legion.id]) legion.name = legionNames[legion.id];
+  });
   data.legions.sort((a, b) => (legionOrder[a.id] ?? 99) - (legionOrder[b.id] ?? 99));
   const validMemberIds = new Set(data.members.map((member) => member.id));
   const seenMembers = new Set();
