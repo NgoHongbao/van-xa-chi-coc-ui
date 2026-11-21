@@ -2,11 +2,12 @@ const STORAGE_KEY = 'guild-manager-theme';
 const DARK_THEME = 'dark';
 const LIGHT_THEME = 'light';
 const PASTEL_THEME = 'pastel';
+const CHRISTMAS_THEME = 'christmas';
 const ACCENT_STORAGE_KEY = 'guild-manager-accent';
 const DEFAULT_ACCENT = '#8b5cf6';
 
 function normalizeTheme(value) {
-  return [DARK_THEME, LIGHT_THEME, PASTEL_THEME].includes(value) ? value : PASTEL_THEME;
+  return [DARK_THEME, LIGHT_THEME, PASTEL_THEME, CHRISTMAS_THEME].includes(value) ? value : CHRISTMAS_THEME;
 }
 
 export function getTheme() {
@@ -18,8 +19,11 @@ export function getTheme() {
 export function setTheme(theme) {
   const value = normalizeTheme(theme);
   document.documentElement.dataset.theme = value;
-  document.documentElement.style.colorScheme = value === DARK_THEME ? 'dark' : 'light';
-  if (value === PASTEL_THEME) {
+  document.documentElement.style.colorScheme = value === DARK_THEME || value === CHRISTMAS_THEME ? 'dark' : 'light';
+  if (value === CHRISTMAS_THEME) {
+    document.documentElement.style.setProperty('--purple', '#e5bd70');
+    document.documentElement.style.setProperty('--purple-rgb', '229,189,112');
+  } else if (value === PASTEL_THEME) {
     document.documentElement.style.setProperty('--purple', '#df5b9c');
     document.documentElement.style.setProperty('--purple-rgb', '223,91,156');
   } else {
@@ -34,7 +38,7 @@ export function setTheme(theme) {
 
 export function toggleTheme() {
   const current = getTheme();
-  return setTheme(current === DARK_THEME ? LIGHT_THEME : current === LIGHT_THEME ? PASTEL_THEME : DARK_THEME);
+  return setTheme(current === DARK_THEME ? LIGHT_THEME : current === LIGHT_THEME ? PASTEL_THEME : current === PASTEL_THEME ? CHRISTMAS_THEME : DARK_THEME);
 }
 
 export function initTheme() {
@@ -62,9 +66,9 @@ export function setAccent(color) {
 export function updateThemeToggle(button) {
   if (!button) return;
   const theme = getTheme();
-  const labels = { dark: 'Dark mode', light: 'White mode', pastel: 'Pastel mode' };
-  const next = theme === DARK_THEME ? LIGHT_THEME : theme === LIGHT_THEME ? PASTEL_THEME : DARK_THEME;
-  button.innerHTML = theme === PASTEL_THEME ? '<span aria-hidden="true">✿</span>' : theme === LIGHT_THEME ? '<span aria-hidden="true">☀</span>' : '<span aria-hidden="true">☾</span>';
+  const labels = { dark: 'Dark mode', light: 'White mode', pastel: 'Pastel mode', christmas: 'Giáng sinh' };
+  const next = theme === DARK_THEME ? LIGHT_THEME : theme === LIGHT_THEME ? PASTEL_THEME : theme === PASTEL_THEME ? CHRISTMAS_THEME : DARK_THEME;
+  button.innerHTML = theme === CHRISTMAS_THEME ? '<span aria-hidden="true">🎄</span>' : theme === PASTEL_THEME ? '<span aria-hidden="true">✿</span>' : theme === LIGHT_THEME ? '<span aria-hidden="true">☀</span>' : '<span aria-hidden="true">☾</span>';
   button.setAttribute('aria-label', `Đang dùng ${labels[theme]}. Chuyển sang ${labels[next]}`);
   button.title = `${labels[theme]} · bấm để chuyển ${labels[next]}`;
 }

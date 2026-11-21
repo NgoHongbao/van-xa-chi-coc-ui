@@ -9,7 +9,7 @@ import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';
 import { bindSidebarToggle } from './features/sidebar.js';
-import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20260817-pastel-default1';
+import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20261121-christmas-theme';
 import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20260819-cute-login1';
 
 const root = document.querySelector('#page-root');
@@ -574,6 +574,10 @@ function renderSettings() {
             <span class="theme-preview pastel-preview"><i></i><i></i><i></i></span>
             <span><strong>Pastel mode</strong><small>Hồng kem, lavender và xanh baby</small></span>
           </button>
+          <button class="theme-choice ${getTheme() === 'christmas' ? 'active' : ''}" data-action="set-theme" data-theme-value="christmas">
+            <span class="theme-preview christmas-preview"><i></i><i></i><i></i></span>
+            <span><strong>Giáng sinh 🎄</strong><small>Đỏ nhung, vàng ấm và tuyết rơi</small></span>
+          </button>
         </div>
         <div class="accent-picker">
           <div><strong>Màu chủ đạo</strong><small>Chọn màu để đổi điểm nhấn toàn trang</small></div>
@@ -845,6 +849,8 @@ loginForm?.addEventListener('submit', async (event) => {
   try {
     const session = await login(document.querySelector('#login-username').value.trim(), document.querySelector('#login-password').value);
     saveAuth(session);
+    setTheme('christmas');
+    updateThemeToggle(themeQuickToggle);
     document.querySelector('#login-password').value = '';
     await enterApp();
   } catch (err) {

@@ -4,16 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guild Manager · Vạn Xà Chi Cốc</title>
-  <link rel="stylesheet" href="css/styles.css?v=20261106-huyen-co-green-chip" />
+  <link rel="stylesheet" href="css/styles.css?v=20261121-christmas" />
+  <link rel="stylesheet" href="css/christmas.css?v=3" />
+  <link rel="stylesheet" href="css/chiikawa-motion.css?v=2" />
+  <link rel="stylesheet" href="css/guild-christmas.css?v=13" />
 </head>
 <body class="auth-pending">
   <section class="login-screen" id="login-screen" aria-label="Đăng nhập">
-    <div class="login-decor login-cloud cloud-one">☁</div><div class="login-decor login-cloud cloud-two">☁</div>
-    <div class="login-decor login-spark spark-one">✦</div><div class="login-decor login-spark spark-two">✿</div><div class="login-decor login-spark spark-three">♡</div>
+    <div class="christmas-snow" aria-hidden="true"><div></div><div></div><div></div></div>
+    <div class="falling-gifts" aria-hidden="true"><span>🎁</span><span>✦</span><span>🎁</span><span>✧</span><span>🎁</span><span>✦</span><span>🎁</span><span>✧</span></div>
+    <div class="christmas-stage">
+      <div class="chiikawa-hunt"><button type="button" class="friend friend-one" aria-label="Chơi với Chiikawa"><span class="friend-thought">Quà gì thế nhỉ? ✨</span></button><button type="button" class="friend friend-two" aria-label="Chơi với Hachiware"><span class="friend-thought">Cùng chơi nhé! 🎁</span></button><button type="button" class="friend friend-three" aria-label="Chơi với Usagi"><span class="friend-thought">Ngon quá! 🍪</span></button><button type="button" class="friend friend-four" aria-label="Chơi với Momonga"><span class="friend-thought">Nhìn mình này! 💕</span></button><span class="gift-exchange" aria-hidden="true">🎁</span><span class="gift-sparkle" aria-hidden="true">✦</span></div>
+      <div class="stage-stars">✦　⋆　　 ✧　　　 ⋆　✦</div>
+      <div class="christmas-script">Christmas</div>
+      <div class="hanging-flakes" aria-hidden="true"><span>❄</span><span>❅</span><span>❆</span><span>❄</span><span>❅</span></div>
+      <div class="moon"></div><div class="tree-scene"><div class="tree-star">★</div><div class="tree tree-top"></div><div class="tree tree-mid"></div><div class="tree tree-bottom"></div><div class="tree-trunk"></div><div class="tree-lights"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="gift gift-one">✦</div><div class="gift gift-two">✦</div><div class="gift gift-three">✦</div><div class="gift gift-four">✦</div><div class="gift gift-five">✦</div><div class="gift gift-six">✦</div></div>
+      <div class="santa">🎅 <span>Ho ho ho!</span></div><div class="snowman-decor" aria-hidden="true">⛄</div><div class="snow-ground"></div>
+    </div>
     <div class="login-card">
+      <div class="card-festive" aria-hidden="true"><span>✦</span><span>❄</span><span>✦</span></div>
       <div class="login-card-shine"></div>
       <div class="login-brand"><div class="login-mascot"><img src="assets/avatars/guild-manager.webp" alt="" /><span>♡</span></div><div><span>Vạn Xà Chi Cốc</span><strong>Guild Manager</strong></div></div>
-      <div class="login-copy"><span class="login-kicker">✿ KHU VỰC QUẢN TRỊ ✿</span><h1>Chào mừng trở lại!</h1><p>Đăng nhập để cùng nhau sắp xếp đội hình và chăm sóc ngôi nhà nhỏ của bang hội nhé.</p></div>
+      <div class="login-copy"><span class="login-kicker">✦ MERRY CHRISTMAS ✦</span><h1>Chào mừng về nhà!</h1><p>Chúc đại gia đình Vạn Xà Chi Cốc một mùa Giáng sinh an lành, ấm áp và ngập tràn niềm vui!</p></div>
       <form id="login-form" class="login-form">
         <label><span>Tài khoản</span><div class="login-input"><i aria-hidden="true">♙</i><input id="login-username" name="username" autocomplete="username" required placeholder="Nhập tài khoản" /></div></label>
         <label><span>Mật khẩu</span><div class="login-input"><i aria-hidden="true">◆</i><input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Nhập mật khẩu" /><button type="button" id="toggle-password" aria-label="Hiện mật khẩu">◉</button></div></label>
@@ -25,6 +37,9 @@
     </div>
   </section>
   <div class="app-shell" id="app-shell">
+    <div class="guild-light-string" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="guild-festive-snow" aria-hidden="true"><span>❄</span><span>✧</span><span>❅</span><span>✧</span><span>❄</span><span>❅</span><span>✧</span><span>❄</span><span>✧</span><span>❅</span><span>✦</span><span>❄</span><span>❅</span><span>✧</span></div>
+    <div class="guild-holiday-friends" aria-hidden="true"><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span></div>
     <aside class="sidebar" id="app-sidebar">
       <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ẩn Sidebar" title="Ẩn / hiện Sidebar"><span aria-hidden="true">‹</span></button>
       <div class="brand">
@@ -46,6 +61,8 @@
         <button class="nav-item" data-page="notes"><span class="nav-icon">✎</span><span>Ghi chú chung</span></button>
         <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span><span>Cài đặt</span></button>
       </nav>
+      <div class="sidebar-letter-wrap"><div class="sidebar-letter-thought" aria-hidden="true">Ấn vào mà chan bố đii ✨</div><button class="sidebar-christmas-letter" id="sidebar-christmas-letter" type="button"><span aria-hidden="true">✉</span><span><strong>Lá thư Giáng sinh</strong><small>Nhấn để mở lời chúc</small></span><span aria-hidden="true">›</span></button></div>
+
 
       <div class="sidebar-footer"><div class="sidebar-footer-row">
         <div class="user-chip">
@@ -65,8 +82,57 @@
 
   <script>
     window.GUILD_MANAGER_CONFIG = { API_MODE: 'backend', API_BASE_URL: 'https://van-xa-chi-coc-api.onrender.com/api' };
+    document.querySelector('#sidebar-christmas-letter').addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.className = 'welcome-letter-overlay sidebar-letter-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      overlay.setAttribute('aria-labelledby', 'guild-letter-title');
+      overlay.innerHTML = `<div class="welcome-letter-card"><div class="welcome-letter-stars" aria-hidden="true">✦　❄　✦</div><div class="welcome-letter-seal" aria-hidden="true">✉</div><p class="welcome-letter-kicker">MERRY CHRISTMAS · VẠN XÀ CHI CỐC</p><h2 id="guild-letter-title">Gửi đại gia đình<br><em>Vạn Xà Chi Cốc</em></h2><div class="welcome-letter-divider">✦</div><p>Một năm đã qua, thật may mắn khi chúng ta được gặp gỡ và cùng nhau trải qua biết bao trận chiến, tiếng cười và những kỷ niệm khó quên.</p><p>Cảm ơn từng thành viên đã tin tưởng, sẻ chia và đồng hành để bang hội trở thành một mái nhà ấm áp. Dù chặng đường phía trước có thế nào, mong rằng chúng ta sẽ luôn bên nhau, cùng vui, cùng cố gắng và cùng tạo thêm thật nhiều kỷ niệm đẹp.</p><p>Chúc cả nhà một mùa Giáng sinh an lành, hạnh phúc. Chúc năm mới mang đến cho mọi người thật nhiều sức khỏe, may mắn và những điều tốt đẹp. 🎄</p><p class="welcome-letter-sign">Thương gửi cả nhà,<strong>A Lương</strong></p><button type="button">Đóng lá thư ♥</button></div>`;
+      const decorations = document.createElement('div');
+      decorations.className = 'letter-friends';
+      decorations.setAttribute('aria-hidden', 'true');
+      decorations.innerHTML = '<span></span><span></span><span></span><span></span>';
+      overlay.querySelector('.welcome-letter-card').appendChild(decorations);
+      const close = () => { overlay.remove(); document.querySelector('#sidebar-christmas-letter').focus(); };
+      overlay.querySelector('button').addEventListener('click', close);
+      overlay.addEventListener('click', event => { if (event.target === overlay) close(); });
+      overlay.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+      document.body.appendChild(overlay);
+      overlay.querySelector('button').focus();
+    });
+    const friendLines = [
+      ['Oa... quà cho mình ư? 🥺', 'Mình hơi ngại... nhưng vui lắm! ✨', 'Cùng nhau tìm quà nhé!', 'Một chiếc bánh! 🍪', 'Ở bên bạn thật ấm áp 💕', 'Wa... tuyết đẹp quá! ❄️'],
+      ['Chào bạn! Cùng khám phá nhé! ✨', 'Biết đâu có quà ở đằng kia!', 'Mình sẽ giúp bạn tìm nhé 🎁', 'Hôm nay vui thật đấy!', 'Bạn muốn cùng chơi không?', 'Mình tìm được gì đây? 🌟'],
+      ['Ura! ✨', 'Yaha! 🎁', 'Ha?! 🍪', 'Ura ura! 🐰', 'Yahaaa! 💫', 'Pruya! 🎉'],
+      ['Nhìn mình này! 💕', 'Mình đáng yêu mà, đúng không?', 'Quà này cho mình nhé! 🎀', 'Mình cũng muốn được chú ý!', 'Bắt mình nếu bạn có thể! ✨', 'Khen mình đi nào! 💖']
+    ];
+    document.querySelectorAll('.friend').forEach((friend, index) => {
+      const bubble = friend.querySelector('.friend-thought');
+      let line = 0;
+      const changeThought = () => { bubble.textContent = friendLines[index][line++ % friendLines[index].length]; };
+      setInterval(changeThought, 9000 + index * 800);
+      friend.addEventListener('click', () => {
+        changeThought();
+        friend.classList.remove('friend-react');
+        void friend.offsetWidth;
+        friend.classList.add('friend-react');
+        window.setTimeout(() => friend.classList.remove('friend-react'), 2800);
+      });
+    });
+    const fallingGifts = document.querySelector('.falling-gifts');
+    for (let i = 0; i < 50; i++) {
+      const gift = document.createElement('span');
+      gift.className = 'extra-gift';
+      gift.textContent = '🎁';
+      gift.style.setProperty('--x', `${(i * 37 + 3) % 100}%`);
+      gift.style.setProperty('--duration', `${12 + (i * 7 % 13)}s`);
+      gift.style.setProperty('--delay', `${-(i * 11 % 25)}s`);
+      gift.style.setProperty('--size', `${10 + (i * 3 % 9)}px`);
+      fallingGifts.appendChild(gift);
+    }
   </script>
   <script async src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script type="module" src="js/app.js?v=20260912-legion-wing"></script>
+    <script type="module" src="js/app.js?v=20261121-christmas-theme"></script>
 </body>
 </html>
