@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/christmas.css?v=3" />
   <link rel="stylesheet" href="css/chiikawa-motion.css?v=2" />
   <link rel="stylesheet" href="css/guild-christmas.css?v=13" />
+  <link rel="stylesheet" href="css/mobile.css?v=1" />
 </head>
 <body class="auth-pending">
   <section class="login-screen" id="login-screen" aria-label="Đăng nhập">
@@ -41,7 +42,7 @@
     <div class="guild-festive-snow" aria-hidden="true"><span>❄</span><span>✧</span><span>❅</span><span>✧</span><span>❄</span><span>❅</span><span>✧</span><span>❄</span><span>✧</span><span>❅</span><span>✦</span><span>❄</span><span>❅</span><span>✧</span></div>
     <div class="guild-holiday-friends" aria-hidden="true"><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span><span class="guild-gift">🎁</span></div>
     <aside class="sidebar" id="app-sidebar">
-      <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ẩn Sidebar" title="Ẩn / hiện Sidebar"><span aria-hidden="true">‹</span></button>
+      <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-controls="app-nav" aria-label="Ẩn Sidebar" title="Ẩn / hiện Sidebar"><span aria-hidden="true">‹</span></button>
       <div class="brand">
         <button class="brand-mark" id="brand-avatar" type="button" aria-label="Xem avatar Vạn Xà Chi Cốc" title="Bấm để xem ảnh lớn"><img src="assets/avatars/guild-manager.webp" alt="Vạn Xà Chi Cốc" /></button>
         <div>
@@ -54,7 +55,7 @@
         <img src="assets/banners/van-xa-chi-coc-original.webp" alt="Vạn Xà Chi Cốc" />
       </button>
 
-      <nav class="nav-list" aria-label="Điều hướng chính">
+      <nav class="nav-list" id="app-nav" aria-label="Điều hướng chính">
         <button class="nav-item active" data-page="overview"><span class="nav-icon">⌂</span><span>Tổng quan</span></button>
         <button class="nav-item" data-page="members"><span class="nav-icon">♟</span><span>Thành viên</span></button>
         <button class="nav-item" data-page="formations"><span class="nav-icon">▦</span><span>Danh sách đoàn / PT</span></button>
@@ -133,6 +134,6 @@
     }
   </script>
   <script async src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script type="module" src="js/app.js?v=20261121-christmas-theme"></script>
+    <script type="module" src="js/app.js?v=20261121-mobile"></script>
 </body>
 </html>

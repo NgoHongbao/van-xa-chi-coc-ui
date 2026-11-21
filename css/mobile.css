@@ -1,0 +1,105 @@
+@media (min-width: 761px) and (max-width: 900px) {
+  .toolbar-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .member-table { gap: 8px; grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr)) 96px; }
+  .member-cell { min-width: 0; overflow-wrap: anywhere; }
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: auto;
+    gap: 8px;
+    padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
+  }
+
+  .sidebar .brand { grid-area: 1 / 1; margin: 0; min-width: 0; }
+  .sidebar .brand > div:last-child { display: block; min-width: 0; }
+  .sidebar .sidebar-toggle {
+    position: static;
+    grid-area: 1 / 2;
+    width: 44px;
+    height: 44px;
+  }
+
+  .sidebar .nav-list,
+  .sidebar .sidebar-letter-wrap,
+  .sidebar .sidebar-footer { display: none; }
+
+  .mobile-menu-expanded .sidebar {
+    max-height: 80vh;
+    max-height: 80dvh;
+    overflow-y: auto;
+  }
+
+  .mobile-menu-expanded .nav-list {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+    gap: 4px;
+  }
+
+  .sidebar .nav-item {
+    justify-content: flex-start;
+    min-height: 44px;
+    gap: 8px;
+    overflow-wrap: anywhere;
+  }
+
+  .sidebar .nav-item span:last-child { display: inline; }
+  .mobile-menu-expanded .sidebar-footer,
+  .mobile-menu-expanded .sidebar-letter-wrap {
+    display: block;
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .mobile-menu-expanded .sidebar-footer { padding: 6px 0 0; }
+  .sidebar .sidebar-letter-wrap .sidebar-christmas-letter {
+    width: 100%;
+    height: auto;
+    min-height: 44px;
+    padding: 5px 8px;
+    margin: 0;
+  }
+
+  .sidebar .sidebar-christmas-letter > span:nth-child(2),
+  .sidebar .sidebar-footer .user-chip > div:last-child { display: block; }
+
+  .page-header { gap: 12px; }
+  .header-actions { width: 100%; }
+  .header-actions > .btn { flex: 1 1 auto; }
+  .settings-head, .editor-card-head, .form-footer, .modal-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .toolbar-card { grid-template-columns: minmax(0, 1fr); }
+  .toolbar-card > *, .search-box input { min-width: 0; }
+
+  .page .btn, .page .mini-add, .page .icon-btn, .sidebar .logout-button,
+  .modal-card .btn, .modal-card .modal-close { min-height: 44px; }
+  .page .icon-btn, .sidebar .logout-button, .modal-card .modal-close { min-width: 44px; }
+  .page .slot-menu { min-height: 44px; }
+  .page .member-slot:not(.legion-screenshot-mode .member-slot) {
+    grid-template-columns: 13px 27px minmax(0, 1fr) auto 44px;
+  }
+  .table-row > div { min-width: 0; gap: 8px; overflow-wrap: anywhere; }
+  .table-row > div:not([data-label])::before { content: none; }
+  .table-row > div[data-label]::before { flex: none; }
+  .table-row .identity { justify-content: flex-start; }
+  .modal-card { max-height: calc(100dvh - 20px); }
+  .page input:not([type="checkbox"], [type="radio"], [type="range"]),
+  .page select, .page textarea,
+  .modal-card input:not([type="checkbox"], [type="radio"], [type="range"]),
+  .modal-card select, .modal-card textarea { font-size: 16px; }
+}
+
+@media (max-width: 420px) {
+  .page { padding-inline: 10px; }
+  .lucky-roster-grid { grid-template-columns: minmax(0, 1fr); }
+  .legion-title-row, .party-title-row { flex-wrap: wrap; }
+}

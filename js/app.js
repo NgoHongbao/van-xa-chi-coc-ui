@@ -8,7 +8,7 @@ import { captureFullOverview, captureLegion } from './features/screenshot.js?v=2
 import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';
-import { bindSidebarToggle } from './features/sidebar.js';
+import { bindSidebarToggle } from './features/sidebar.js?v=20261121-mobile';
 import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20261121-christmas-theme';
 import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20260819-cute-login1';
 
@@ -127,7 +127,8 @@ function setPage(page) {
   state.page = page;
   navItems.forEach((item) => item.classList.toggle('active', item.dataset.page === page));
   renderPage();
-  document.querySelector('.main-content')?.scrollTo({ top: 0, behavior: 'smooth' });
+  const scroller = matchMedia('(max-width: 760px)').matches ? window : document.querySelector('.main-content');
+  scroller?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 navItems.forEach((item) => item.addEventListener('click', () => setPage(item.dataset.page)));
