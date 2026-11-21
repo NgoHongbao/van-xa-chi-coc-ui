@@ -22,7 +22,11 @@ export function bindSidebarToggle({ shell, button }) {
   };
 
   apply();
-  mobile.addEventListener('change', apply);
+  if (typeof mobile.addEventListener === 'function') {
+    mobile.addEventListener('change', apply);
+  } else {
+    mobile.addListener(apply);
+  }
   button.addEventListener('click', () => {
     if (mobile.matches) {
       mobileExpanded = !mobileExpanded;

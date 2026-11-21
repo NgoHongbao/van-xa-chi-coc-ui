@@ -27,12 +27,13 @@
       <div class="login-card-shine"></div>
       <div class="login-brand"><div class="login-mascot"><img src="assets/avatars/guild-manager.webp" alt="" /><span>♡</span></div><div><span>Vạn Xà Chi Cốc</span><strong>Guild Manager</strong></div></div>
       <div class="login-copy"><span class="login-kicker">✦ MERRY CHRISTMAS ✦</span><h1>Chào mừng về nhà!</h1><p>Chúc đại gia đình Vạn Xà Chi Cốc một mùa Giáng sinh an lành, ấm áp và ngập tràn niềm vui!</p></div>
-      <form id="login-form" class="login-form">
+      <form id="login-form" class="login-form" method="post">
         <label><span>Tài khoản</span><div class="login-input"><i aria-hidden="true">♙</i><input id="login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required placeholder="Nhập tài khoản" /></div></label>
         <label><span>Mật khẩu</span><div class="login-input"><i aria-hidden="true">◆</i><input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Nhập mật khẩu" /><button type="button" id="toggle-password" aria-label="Hiện mật khẩu">◉</button></div></label>
         <div class="login-options"><span>Phiên chỉ tồn tại trong tab hiện tại</span><button id="login-theme" type="button">Đổi theme</button></div>
-        <div class="login-error" id="login-error" role="alert"></div>
-        <button class="login-submit" id="login-submit" type="submit"><span class="login-button-heart">♡</span> Đăng nhập <span>→</span></button>
+        <div class="login-error" id="login-error" role="alert">Đang tải màn hình đăng nhập…</div>
+        <button class="login-submit" id="login-submit" type="submit" disabled><span class="login-button-heart">♡</span> Đăng nhập <span>→</span></button>
+        <noscript>Bật JavaScript trong trình duyệt để đăng nhập.</noscript>
       </form>
       <small class="login-security">♡ An toàn trong tab hiện tại · Hẹn gặp lại mỗi lần bạn quay về ♡</small>
     </div>
@@ -134,6 +135,6 @@
     }
   </script>
   <script async src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script type="module" src="js/app.js?v=20261121-mobile-login"></script>
+  <script type="module" src="js/app.js?v=20261121-login-compat" onerror="document.getElementById('login-error').textContent = 'Không tải được màn hình đăng nhập. Hãy tải lại trang hoặc mở bằng Safari hoặc Chrome.'"></script>
 </body>
 </html>

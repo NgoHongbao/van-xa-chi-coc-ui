@@ -42,10 +42,26 @@ export function clearAuth() {
 }
 
 export async function login(username, password) {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password })
-  });
-  const body = await response.json().catch(() => null);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  let response;
+  let body;
+  try {
+    response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+      signal: controller.signal
+    });
+    body = await response.json().catch(() => null);
+    if (controller.signal.aborted) throw new Error('Login timed out');
+  } catch {
+    throw new Error(controller.signal.aborted
+      ? 'Máy chủ phản hồi quá lâu. Vui lòng thử đăng nhập lại.'
+      : 'Không thể kết nối tới máy chủ đăng nhập. Hãy kiểm tra mạng rồi thử lại.');
+  } finally {
+    clearTimeout(timer);
+  }
   // Backward compatibility while the Render API is still running the version
   // from before server-side authentication was added. Remove this fallback
   // after the updated backend has been deployed.
@@ -57,5 +73,8 @@ export async function login(username, password) {
     };
   }
   if (!response.ok) throw new Error(body?.message || 'Không thể đăng nhập.');
+  if (typeof body?.token !== 'string' || !body.token) {
+    throw new Error('Máy chủ không trả về phiên đăng nhập hợp lệ. Vui lòng thử lại.');
+  }
   return body;
 }

@@ -1,16 +1,16 @@
-import { api, API_MODE } from './api.js?v=20261121-mobile-login';
+import { api, API_MODE } from './api.js?v=20261121-login-compat';
 import { PARTY_CAPACITY } from './constants.js';
 import { assignmentAt } from './state/formation.js';
-import { escapeHtml as e, initials } from './utils/text.js';
+import { escapeHtml as e, initials } from './utils/text.js?v=20261121-login-compat';
 import { avatarContent, memberAvatarSrc } from './utils/avatar.js?v=20260817-webp1';
 import { bindDragDrop } from './features/dragDrop.js';
 import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260821-legion-focus';
 import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';
-import { bindSidebarToggle } from './features/sidebar.js?v=20261121-mobile';
+import { bindSidebarToggle } from './features/sidebar.js?v=20261121-login-compat';
 import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20261121-christmas-theme';
-import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20261121-mobile-login';
+import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20261121-login-compat';
 
 const root = document.querySelector('#page-root');
 const modalRoot = document.querySelector('#modal-root');
@@ -845,6 +845,7 @@ async function enterApp() {
 loginForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const submit = document.querySelector('#login-submit');
+  if (submit.disabled) return;
   const error = document.querySelector('#login-error');
   submit.disabled = true;
   submit.innerHTML = 'Đang đăng nhập…';
@@ -873,5 +874,6 @@ document.querySelector('#login-theme')?.addEventListener('click', () => toggleTh
 document.querySelector('#logout-button')?.addEventListener('click', () => showLogin('Bạn đã đăng xuất an toàn.'));
 window.addEventListener('auth:required', (event) => showLogin(event.detail?.message || 'Phiên đăng nhập đã hết hạn.'));
 
+document.querySelector('#login-submit').disabled = false;
 clearRememberedAuth();
 if (getAuthToken()) enterApp(); else showLogin();
