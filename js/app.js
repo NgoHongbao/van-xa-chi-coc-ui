@@ -1,4 +1,4 @@
-import { api, API_MODE } from './api.js?v=20260912-legion-wing';
+import { api, API_MODE } from './api.js?v=20261121-mobile-login';
 import { PARTY_CAPACITY } from './constants.js';
 import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js';
@@ -10,7 +10,7 @@ import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/m
 import { openModal, closeModal } from './components/modal.js';
 import { bindSidebarToggle } from './features/sidebar.js?v=20261121-mobile';
 import { initTheme, getTheme, setTheme, toggleTheme, updateThemeToggle, getAccent, setAccent } from './features/theme.js?v=20261121-christmas-theme';
-import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20260819-cute-login1';
+import { login, saveAuth, clearAuth, clearRememberedAuth, getAuthToken, getAuthUser } from './auth.js?v=20261121-mobile-login';
 
 const root = document.querySelector('#page-root');
 const modalRoot = document.querySelector('#modal-root');
@@ -828,7 +828,9 @@ function showLogin(message = '') {
   document.body.classList.add('auth-pending');
   const error = document.querySelector('#login-error');
   if (error) error.textContent = message;
-  setTimeout(() => document.querySelector('#login-username')?.focus(), 50);
+  if (matchMedia('(pointer: fine)').matches) {
+    setTimeout(() => document.querySelector('#login-username')?.focus(), 50);
+  }
 }
 
 async function enterApp() {

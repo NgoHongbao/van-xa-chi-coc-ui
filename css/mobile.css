@@ -103,3 +103,18 @@
   .lucky-roster-grid { grid-template-columns: minmax(0, 1fr); }
   .legion-title-row, .party-title-row { flex-wrap: wrap; }
 }
+
+@media (max-width: 650px), (max-height: 540px) and (pointer: coarse) {
+  html[data-theme] .login-screen {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px;
+    min-height: 0;
+  }
+
+  .login-screen .christmas-stage { display: none; }
+  .login-screen .login-card { margin: 0; padding: 24px 20px; }
+  .login-screen .login-card-shine { pointer-events: none; }
+  .login-screen .login-brand { margin-bottom: 18px; }
+  .login-screen .login-input input { font-size: 16px; }
+}

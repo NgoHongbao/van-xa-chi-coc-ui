@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/christmas.css?v=3" />
   <link rel="stylesheet" href="css/chiikawa-motion.css?v=2" />
   <link rel="stylesheet" href="css/guild-christmas.css?v=13" />
-  <link rel="stylesheet" href="css/mobile.css?v=1" />
+  <link rel="stylesheet" href="css/mobile.css?v=2" />
 </head>
 <body class="auth-pending">
   <section class="login-screen" id="login-screen" aria-label="Đăng nhập">
@@ -28,7 +28,7 @@
       <div class="login-brand"><div class="login-mascot"><img src="assets/avatars/guild-manager.webp" alt="" /><span>♡</span></div><div><span>Vạn Xà Chi Cốc</span><strong>Guild Manager</strong></div></div>
       <div class="login-copy"><span class="login-kicker">✦ MERRY CHRISTMAS ✦</span><h1>Chào mừng về nhà!</h1><p>Chúc đại gia đình Vạn Xà Chi Cốc một mùa Giáng sinh an lành, ấm áp và ngập tràn niềm vui!</p></div>
       <form id="login-form" class="login-form">
-        <label><span>Tài khoản</span><div class="login-input"><i aria-hidden="true">♙</i><input id="login-username" name="username" autocomplete="username" required placeholder="Nhập tài khoản" /></div></label>
+        <label><span>Tài khoản</span><div class="login-input"><i aria-hidden="true">♙</i><input id="login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required placeholder="Nhập tài khoản" /></div></label>
         <label><span>Mật khẩu</span><div class="login-input"><i aria-hidden="true">◆</i><input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Nhập mật khẩu" /><button type="button" id="toggle-password" aria-label="Hiện mật khẩu">◉</button></div></label>
         <div class="login-options"><span>Phiên chỉ tồn tại trong tab hiện tại</span><button id="login-theme" type="button">Đổi theme</button></div>
         <div class="login-error" id="login-error" role="alert"></div>
@@ -134,6 +134,6 @@
     }
   </script>
   <script async src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script type="module" src="js/app.js?v=20261121-mobile"></script>
+    <script type="module" src="js/app.js?v=20261121-mobile-login"></script>
 </body>
 </html>

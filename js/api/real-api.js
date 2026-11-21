@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../config.js?v=20260818-render-api1';
-import { getAuthToken, clearAuth } from '../auth.js?v=20260819-cute-login1';
+import { getAuthToken, clearAuth } from '../auth.js?v=20261121-mobile-login';
 
 const DEFAULT_RETRY_DELAY = 2500;
 const MAX_RETRIES = 3;

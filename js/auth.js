@@ -4,31 +4,41 @@ const TOKEN_KEY = 'guild-manager-auth-token';
 const USER_KEY = 'guild-manager-auth-user';
 const LEGACY_USERNAME = 'vxcc';
 const LEGACY_PASSWORD = 'vxccnonvl';
+let activeSession = null;
 
 export function getAuthToken() {
-  return sessionStorage.getItem(TOKEN_KEY) || '';
+  if (activeSession) return activeSession.token;
+  try { return sessionStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; }
 }
 
 export function getAuthUser() {
+  if (activeSession) return activeSession.user;
   try { return JSON.parse(sessionStorage.getItem(USER_KEY) || 'null'); } catch { return null; }
 }
 
 export function saveAuth(session) {
   clearAuth();
-  sessionStorage.setItem(TOKEN_KEY, session.token);
-  sessionStorage.setItem(USER_KEY, JSON.stringify(session.user));
+  activeSession = session;
+  try {
+    sessionStorage.setItem(USER_KEY, JSON.stringify(session.user));
+    sessionStorage.setItem(TOKEN_KEY, session.token);
+  } catch { /* The active tab can still use the session in memory. */ }
 }
 
 export function clearRememberedAuth() {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+  } catch { /* The browser may block storage. */ }
 }
 
 export function clearAuth() {
-  [localStorage, sessionStorage].forEach((storage) => {
-    storage.removeItem(TOKEN_KEY);
-    storage.removeItem(USER_KEY);
-  });
+  activeSession = null;
+  clearRememberedAuth();
+  try {
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
+  } catch { /* The browser may block storage. */ }
 }
 
 export async function login(username, password) {
