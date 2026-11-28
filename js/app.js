@@ -4,7 +4,7 @@ import { assignmentAt } from './state/formation.js';
 import { escapeHtml as e, initials } from './utils/text.js?v=20261121-login-compat';
 import { avatarContent, memberAvatarSrc } from './utils/avatar.js?v=20260817-webp1';
 import { bindDragDrop } from './features/dragDrop.js';
-import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20260821-legion-focus';
+import { captureFullOverview, captureLegion } from './features/screenshot.js?v=20261128-capture-colors';
 import { openAssignModal, openMoveModal } from './features/partyManagement.js';
 import { openMemberForm, openRoleModal, confirmDeleteMember } from './features/memberManagement.js';
 import { openModal, closeModal } from './components/modal.js';

@@ -37,8 +37,8 @@ async function renderCanvas(element, options = {}) {
     scrollX: 0,
     scrollY: 0,
     onclone: (clonedDocument) => {
-      sanitizeUnsupportedColors(clonedDocument.documentElement);
       freezePastelFactionCards(clonedDocument);
+      sanitizeUnsupportedColors(clonedDocument.documentElement);
     },
     ...options
   });
@@ -102,6 +102,10 @@ function stripInteractiveState(clone) {
 
 function sanitizeUnsupportedColors(clone) {
   const unsupportedColor = /(?:color-mix|oklab|oklch|lab|lch|color)\(/i;
+  const view = clone.ownerDocument.defaultView;
+  const canvas = clone.ownerDocument.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
   const properties = [
     'color', 'background-color', 'background-image',
     'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color',
@@ -119,11 +123,21 @@ function sanitizeUnsupportedColors(clone) {
   };
 
   [clone, ...clone.querySelectorAll('*')].forEach((element) => {
-    const view = element.ownerDocument?.defaultView || window;
     const computed = view.getComputedStyle(element);
     properties.forEach((property) => {
       const value = computed.getPropertyValue(property);
-      if (unsupportedColor.test(value)) element.style.setProperty(property, fallback(property));
+      if (!unsupportedColor.test(value)) return;
+
+      let replacement = fallback(property);
+      if (context && view.CSS.supports('color', value)) {
+        context.clearRect(0, 0, 1, 1);
+        context.fillStyle = value;
+        context.fillRect(0, 0, 1, 1);
+        const [red, green, blue, alpha] = context.getImageData(0, 0, 1, 1).data;
+        replacement = `rgba(${red}, ${green}, ${blue}, ${alpha / 255})`;
+      }
+      // Theme rules can set the same color through an !important shorthand.
+      element.style.setProperty(property, replacement, 'important');
     });
   });
   clone.style.setProperty('--purple-2', dark ? '#6f46c9' : pastel ? '#c94785' : '#7651d5');
@@ -136,7 +150,6 @@ async function withClone(source, className, task) {
   clone.classList.add('screenshot-static-clone', 'screenshot-color-safe');
   stripInteractiveState(clone);
   stage.append(clone);
-  sanitizeUnsupportedColors(clone);
   freezePastelFactionCards(clone);
 
   try {
